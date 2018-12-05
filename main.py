@@ -36,7 +36,7 @@ for i in range(ARG_ALG_ITERS):
 
         start = time.time()
         for i, individual in enumerate(POPULATION):
-            fakeeval.evaluate(individual)
+            evaluation.evaluate(individual)
             print("<<< ", i)
         print("popLen: ", len(POPULATION))
         print("Primera evaluacion: ",time.time()-start)
