@@ -41,7 +41,7 @@ def trydivide(a,b):
 operatorTable = {'+' : Operator(2, lambda a,b: a+b),
                 '-' : Operator(2, lambda a,b: a-b),
                 '*': Operator(2, lambda a,b: a*b),
-                '/': Operator(2, lambda a,b: a/b)}
+                '/': Operator(2, lambda a,b: trydivide(a,b))}
 
 symbolTable = {
     "functions" : list(operatorTable.keys()),
@@ -81,7 +81,7 @@ def maxmeanFit(population):
     fit_max = 0
     fit_acum = 0
 
-    for individual in popuplation:
+    for individual in population:
         fit_ind = individual.fitness
         fit_acum += fit_ind
 

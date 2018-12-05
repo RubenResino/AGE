@@ -5,7 +5,7 @@ from random import randint
 
 def mutation (Chrom):
 
-	#Parámetros del problema:
+	#Parametros del problema:
     treeType = ['grow','full']
     treeDepth = 0
     notSimpleMutationRatio = 0.4
@@ -26,14 +26,14 @@ def mutation (Chrom):
     else:
         choosenTree = random.choice(treeType)
         treeDepth = randint(2,9)
-        newSubTree = init.initIndiv(treeDepth,choosenTree) #Llamada a la funcion que devuelve un nuevo subárbol
+        newSubTree = init.initIndiv(treeDepth,choosenTree) #Llamada a la funcion que devuelve un nuevo subarbol
         strNewSubTree = ''.join(newSubTree)
         if Chrom[i] not in common.symbolTable['functions']: #Si se inserta en un nodo hoja simplemente se sustituye por este.
             Chrom[i] = strNewSubTree
         else:
-            index = common.getSection(Chrom,i) #Si no, se obtiene a traves de esta función la sección del árbol que hay que reemplazar.
-            del Chrom [index[0]+1:index[-1]+1] #Se borran esos índices del cromosoma.
-            Chrom[i] = strNewSubTree #Se inserta el nuevo subárbol.
+            index = common.getSection(Chrom,i) #Si no, se obtiene a traves de esta funcion la seccion del arbol que hay que reemplazar.
+            del Chrom [index[0]+1:index[-1]+1] #Se borran esos indices del cromosoma.
+            Chrom[i] = strNewSubTree #Se inserta el nuevo subarbol.
 
     strChrom =''.join(Chrom)
     Chrom = list(strChrom) #Se transforma el individuo al formato que tiene Chrom.allels.

@@ -3,7 +3,7 @@ import init, selection, crossing, mut, evaluation,fakeeval
 import time, numpy as np, random
 
 POPULATION = None
-POP_LEN = 2
+POP_LEN = 50
 INTERMEDIATE = None
 
 """
@@ -28,18 +28,22 @@ print("<<< POP. INITIALIZED - SIZE:", POP_LEN)
 for i in range(ARG_ALG_ITERS):
     INTERMEDIATE = []
     print("Iteracion: ",i)
-    while len(INTERMEDIATE) < POP_LEN:
 
-        print("popLen: ", len(POPULATION))
-        print(">>> EVALUATING INDIVIDUALS")
+    print("popLen: ", len(POPULATION))
+    print(">>> EVALUATING INDIVIDUALS")
 		#Sets the fitness of the population
 
-        start = time.time()
-        for i, individual in enumerate(POPULATION):
-            evaluation.evaluate(individual)
-            print("<<< ", i)
-        print("popLen: ", len(POPULATION))
-        print("Primera evaluacion: ",time.time()-start)
+    start = time.time()
+    for i, individual in enumerate(POPULATION):
+        individual.fitness = evaluation.evaluate(individual)
+    	print("<<< ", i)
+    print("popLen: ", len(POPULATION))
+    print("Primera evaluacion: ",time.time()-start)
+    print("Maximo y media: ", common.maxmeanFit(POPULATION))
+
+    while len(INTERMEDIATE) < POP_LEN:
+
+
 
         start = time.time()
 

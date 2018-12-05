@@ -103,7 +103,7 @@ def evaluate(chromosome):
         '''
 
 
-
+'''
 data=np.empty([10000,4])
 i=0
 random.seed(42)
@@ -127,7 +127,7 @@ while i<10000:
 
 print(data)
 np.savetxt("def_evaluation_2.csv", data, delimiter=",")
-
+'''
 
 #prueba = ['+', '7', '+', '/', '+', 'y', '*', 'y', 'z', '-', '/', 'x', 'y', 'z', '+', '+', '-', 'y', 'z', 'x', '3.615', '-', '5.632', '-', '-', '-', '+', 'z', 'y', 'x', '5.855', '/', 'z', 'z', 'x']
 
