@@ -2,19 +2,15 @@ import random
 import common
 import init
 from random import randint
-            
-def mutation (unmut_chrom):
 
-    #Parámetros del problema:
+def mutation (Chrom):
+
+	#Parámetros del problema:
     treeType = ['grow','full']
     treeDepth = 0
     notSimpleMutationRatio = 0.4
     newOperatorArity = 0
 
-    """
-    strChrom = ''.join(unmut_chrom)
-    Chrom = list(strChrom)
-    """
     i = randint(0,len(Chrom)-1) #Se elige un alelo aleatorio del cromosoma.
 
     probToSimpleMutation = random.random()
@@ -22,6 +18,7 @@ def mutation (unmut_chrom):
         if Chrom[i] in common.symbolTable['terminals']: #Si el alelo es un terminal...
             Chrom[i] = (init.getRandomCte(random.choice(common.symbolTable['terminals']))) #Se sustituye por otro de la lista de terminales.
         else:
+            print(common.symbolTable['terminals'])
             while (common.getArity(Chrom[i]) != newOperatorArity): #Si es un operador, se sustituye por otro operadores de la MISMA aridad.
                 newOperator = random.choice(common.symbolTable['functions'])
                 newOperatorArity = common.getArity(newOperator)
@@ -46,9 +43,4 @@ def mutation (unmut_chrom):
 """ TEST
 test = [["+43"],["*x2"],["/zy"]]
 result = mutation(test[0])
-""" 
-
-
-
-        
-
+"""

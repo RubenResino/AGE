@@ -1,5 +1,5 @@
 import common
-import evaluation, init, selection, crossing, mut
+import init, selection, crossing, mut, fakeeval
 import time, numpy as np, random
 
 POPULATION = None
@@ -15,11 +15,12 @@ ARG_ALG_ITERS = 50          				# Iterations through algorithm
 ARG_ALG_tFEED = 10          				# When to print feedback
 ARG_ALG_RANGERATIO = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
 ARG_ALG_BESTPICKS = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
-ARG_ALG_CROSSRATIO = 70
+ARG_ALG_CROSSRATIO = 100
 
 print(">>> INITIALIZING POP.")
 #Initializes popuplation
 POPULATION = init.initPopulation(POP_LEN)
+print(POPULATION[0])
 #POP_LEN = len(POPULATION)
 print("<<< POP. INITIALIZED - SIZE:", POP_LEN)
 
@@ -33,7 +34,7 @@ for i in range(ARG_ALG_ITERS):
         print(">>> EVALUATING INDIVIDUALS")
 		#Sets the fitness of the population
         for i, individual in enumerate(POPULATION):
-            evaluation.evaluate(individual)
+            fakeeval.evaluate(individual)
             print("<<< ", i)
         print("popLen: ", len(POPULATION))
 
@@ -59,9 +60,13 @@ for i in range(ARG_ALG_ITERS):
             print(">>> CROSSING INDIVIDUAL")
             print("Aqui")
             for child in crossing.love(parents, ARG_CRS_SWAPS):
-                INTERMEDIATE.append(child)
+
+                # Creates a Chromo object to pass to the new population
+                newIndiv = common.Chromo(child)
+                INTERMEDIATE.append(newIndiv)
             print("final")
         else:
-            INTERMEDIATE.append(mut.mutation(selection.tournament(POPULATION, ARG_SEL_TSIZE)))
+            newIndiv = common.Chromo(mut.mutation(selection.tournament(POPULATION, ARG_SEL_TSIZE)))
+            INTERMEDIATE.append(newIndiv)
 
     POPULATION = INTERMEDIATE

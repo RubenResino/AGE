@@ -14,7 +14,7 @@ function_ = 0
 terminal_ = 1
 both_ = 2
 
-# Gets a node and return it if it is not cte. Otherwise, it returns a random float
+# Gets a node and return it if it not cte. Otherwise, it returns a random float
 def getRandomCte(element):
 	return (str)(round(random.uniform(0,10),3)) if (element is 'cte') else element
 

@@ -11,9 +11,9 @@ inputs=np.genfromtxt('def_evaluation.csv', delimiter=',').astype(int)
 
 def prefixParse(code,a,b,c):
     token=code[0]
-    
+
     if token in common.symbolTable["functions"]:
-        
+
         arity = common.getArity(token)
         operator = common.getFunction(token)
 
@@ -23,14 +23,14 @@ def prefixParse(code,a,b,c):
             try:
                 return operator(arg1, arg2), chomp1 + chomp2 + 1
             except ZeroDivisionError:
-                raise ZeroDivisionError 
+                raise ZeroDivisionError
 
         elif operator.arity == 1:
             arg, chomp = prefixParse(code[1:],a,b,c)
             try:
                 return operator(arg), chomp + 1
             except ZeroDivisionError:
-                raise ZeroDivisionError 
+                raise ZeroDivisionError
 
         elif operator.arity == 0:
             return operator(), 1
@@ -76,15 +76,15 @@ def evaluate(chromosome):
             urls.append("http://memento.evannai.inf.uc3m.es/age/eci1?days={}&seats={}&demand={}&price={}".format(inp[0],inp[1],inp[2],price))
         except ZeroDivisionError:
             return -1000000
-        
+
     with concurrent.futures.ThreadPoolExecutor(max_workers = CONNECTIONS) as executor:
         #future_to_url = (executor.submit(load_url, url) for url in urls)
-        
+
         m=list(executor.map(load_url,urls,np.ones(100)))
         media = np.mean(m)
         return media
         #executor.wait(future_to_url, timeout=TIMEOUT, return_when=ALL_COMPLETED)
-        
+
         #mean = np.mean(future_to_url.result())
 
 
@@ -107,8 +107,8 @@ data=np.empty([100,4])
 i=0
 random.seed(42)
 while i<100:
-    
-    
+
+
 
     d1=random.randint(1,365)
     d2=random.randint(1,500)
@@ -118,7 +118,7 @@ while i<100:
     r_float=float(r.text)
 
     #print(aux_arr)
-    
+
     if r_float not in data[:,3]:
         data[i]=np.array([d1,d2,d3,r_float])
         i+=1
@@ -126,7 +126,7 @@ while i<100:
 print(data)
 np.savetxt("def_evaluation.csv", data, delimiter=",")
 
-'''    
+'''
 
 c=common.Chromo()
 c.allels="/y+xz"

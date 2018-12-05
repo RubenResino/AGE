@@ -10,10 +10,13 @@ class Chromo:
     allels = []
     fitness = 0
 
-    def __init__(self):
+    def __init__(self, allels = None):
 
         self.allels = []
         self.fitness = 0
+
+        if allels is not None:
+            self.allels = allels
 
 # Common functions and methods
 class Operator:
@@ -43,7 +46,15 @@ symbolTable = {
 ##getArity('+', True) -> object(Operator)
 def getArity(symbol):
     #Every function symbol has an operator object associated
-    return operatorTable[symbol].arity
+    print("type of symbol ", type(symbol))
+    print(symbolTable['terminals'])
+
+    if symbol in operatorTable:
+        return operatorTable[symbol].arity
+
+    # Implies that if its not an operator, then is a VALID terminal
+    else:
+        return 0
 
 def getFunction(symbol):
     return operatorTable[symbol]
@@ -75,17 +86,19 @@ def maxmeanFit(population):
     return (fit_max, fit_acum)
 
 # Returns limit indexes of a given function
-def getSection(chromo, i_head):
+# Params:
+##  c_allels: chromosome allels as list
+##  i_head: leading index of the section
+def getSection(c_allels, i_head):
     i_tail = i_head
-    c_allels = chromo.allels
     symbol = c_allels[i_head]
 
     #if symbol is terminal, then replace only a single element
     #else, replace the whole expression checking its arity
-    if symbol in common.symbolTable["terminals"]:
+    if symbol in symbolTable["terminals"]:
         return (i_head, i_tail)
 
-    symbol_arity = common.getArity(symbol)
+    symbol_arity = getArity(symbol)
 
     remaining_symbols = symbol_arity
 
@@ -96,9 +109,9 @@ def getSection(chromo, i_head):
 
         additional_symbol = c_allels[i_tail]
 
-        if additional_symbol not in common.symbolTable["terminals"]:
+        if additional_symbol not in symbolTable["terminals"]:
 
-            additional_arity = common.getArity(additional_symbol)
+            additional_arity = getArity(additional_symbol)
             #extends remaining_symbols to include the implicit function
             remaining_symbols += additional_arity
     return (i_head, i_tail)
