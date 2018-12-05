@@ -1,6 +1,5 @@
 import common
 import random
-
 #~~~Crossing codification~~~
 """
 -Select some specific nodes (random indices) (in pairs; can be swapped in different regions of each Chromo)
@@ -16,7 +15,7 @@ import random
 
 #Given a chromosome and a tuple representing the indices of the section to get, returns the allels inside the section
 def getBlocks(chromo, i_section):
-    return chromo.allels[i_section[0] : i_section[1] + 1]
+    return chromo[i_section[0] : i_section[1] + 1]
 
 
 #this should take a tuple of individuals
@@ -30,12 +29,12 @@ def love(parents, n_swaps = 1):
     for swap in range(n_swaps):
 
         #gets random indices (valid across both individuals)
-        crosspoints = (random.randint(0, len(parents[0].allels) - 1), random.randint(0, len(parents[1].allels) - 1))
+        crosspoints = (random.randint(0, len(parents[0]) - 1), random.randint(0, len(parents[1]) - 1))
 
         #nested tuples
         #the outter tuple represents each of the parents crossing sections
         #inner tuple (getSection return) represents the begining and ending of the section
-        bounds = (getSection(parents[0], crosspoints[0]), getSection(parents[1], crosspoints[1]))
+        bounds = (common.getSection(parents[0], crosspoints[0]), common.getSection(parents[1], crosspoints[1]))
 
         #actual blocks of symbols to swap between parents
         blocks = (getBlocks(parents[0], bounds[0]), getBlocks(parents[1], bounds[1]))
