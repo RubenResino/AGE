@@ -1,5 +1,5 @@
 import common
-import init, selection, crossing, mut, fakeeval
+import init, selection, crossing, mut, evaluation,fakeeval
 import time, numpy as np, random
 
 POPULATION = None
@@ -27,23 +27,30 @@ print("<<< POP. INITIALIZED - SIZE:", POP_LEN)
 # DOGEN
 for i in range(ARG_ALG_ITERS):
     INTERMEDIATE = []
-
+    print("Iteracion: ",i)
     while len(INTERMEDIATE) < POP_LEN:
 
         print("popLen: ", len(POPULATION))
         print(">>> EVALUATING INDIVIDUALS")
 		#Sets the fitness of the population
+
+        start = time.time()
         for i, individual in enumerate(POPULATION):
             fakeeval.evaluate(individual)
             print("<<< ", i)
         print("popLen: ", len(POPULATION))
+        print("Primera evaluacion: ",time.time()-start)
 
+        start = time.time()
 
 		# Sorts population list
         POPULATION.sort(key = lambda x: x.fitness, reverse = False)
 		# Populates intermediate list with best individuals
         best_fitness = POPULATION[0].fitness
         limit_fitness = best_fitness - (best_fitness * ARG_ALG_RANGERATIO)
+        print("Ordenacion: ",time.time()-start)
+
+        start = time.time()
 
         for individual in range(ARG_ALG_BESTPICKS):
 			# If individual fitness is greater than the specified range, stop loop
@@ -52,6 +59,9 @@ for i in range(ARG_ALG_ITERS):
 
 			# Push individual to intermediate list
             INTERMEDIATE.append(POPULATION[individual])
+
+        print("Mantener padres: ",time.time()-start)
+        start = time.time()
 
     	# Choses between mutation or crossing
         if random.randint(0, 100) < ARG_ALG_CROSSRATIO:
@@ -68,5 +78,6 @@ for i in range(ARG_ALG_ITERS):
         else:
             newIndiv = common.Chromo(mut.mutation(selection.tournament(POPULATION, ARG_SEL_TSIZE)))
             INTERMEDIATE.append(newIndiv)
+        print("Generacion individuos: ",time.time()-start)
 
     POPULATION = INTERMEDIATE

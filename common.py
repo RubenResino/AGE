@@ -31,6 +31,13 @@ class Operator:
         assert(len(args) == self.arity)
         return self.function(*args)
 
+
+def trydivide(a,b):
+    if b!=0:
+        return a/b
+    else:
+        raise ZeroDivisionError
+
 operatorTable = {'+' : Operator(2, lambda a,b: a+b),
                 '-' : Operator(2, lambda a,b: a-b),
                 '*': Operator(2, lambda a,b: a*b),
@@ -46,8 +53,8 @@ symbolTable = {
 ##getArity('+', True) -> object(Operator)
 def getArity(symbol):
     #Every function symbol has an operator object associated
-    print("type of symbol ", type(symbol))
-    print(symbolTable['terminals'])
+    #print("type of symbol ", type(symbol))
+    #print(symbolTable['terminals'])
 
     if symbol in operatorTable:
         return operatorTable[symbol].arity

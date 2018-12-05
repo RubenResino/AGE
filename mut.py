@@ -15,7 +15,7 @@ def mutation (Chrom):
 
     probToSimpleMutation = random.random()
     if probToSimpleMutation > notSimpleMutationRatio: #Un 60% de las veces se muta de forma simple, porcentaje arbitrario.
-        if Chrom[i] in common.symbolTable['terminals']: #Si el alelo es un terminal...
+        if Chrom[i] not in common.symbolTable['functions']: #Si el alelo es un terminal... ## Posible correcion - se considera que un simbolo es terminal si no es una funcion
             Chrom[i] = (init.getRandomCte(random.choice(common.symbolTable['terminals']))) #Se sustituye por otro de la lista de terminales.
         else:
             print(common.symbolTable['terminals'])
@@ -28,7 +28,7 @@ def mutation (Chrom):
         treeDepth = randint(2,9)
         newSubTree = init.initIndiv(treeDepth,choosenTree) #Llamada a la funcion que devuelve un nuevo subárbol
         strNewSubTree = ''.join(newSubTree)
-        if Chrom[i] in common.symbolTable['terminals']: #Si se inserta en un nodo hoja simplemente se sustituye por este.
+        if Chrom[i] not in common.symbolTable['functions']: #Si se inserta en un nodo hoja simplemente se sustituye por este.
             Chrom[i] = strNewSubTree
         else:
             index = common.getSection(Chrom,i) #Si no, se obtiene a través de esta función la sección del árbol que hay que reemplazar.

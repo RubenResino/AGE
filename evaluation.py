@@ -18,6 +18,7 @@ def prefixParse(code,a,b,c):
         operator = common.getFunction(token)
 
         if arity == 2:
+
             arg1, chomp1 = prefixParse(code[1:],a,b,c)
             arg2, chomp2 = prefixParse(code[chomp1 + 1:],a,b,c)
             try:
@@ -35,7 +36,7 @@ def prefixParse(code,a,b,c):
         elif operator.arity == 0:
             return operator(), 1
 
-    elif token in common.symbolTable["terminals"]:
+    else:                   #elif token in common.symbolTable["terminals"]:
         if token=='x':
             return a, 1
         elif token=='y':
@@ -43,7 +44,7 @@ def prefixParse(code,a,b,c):
         elif token=='z':
             return c, 1
         else:
-            return int(token), 1
+            return float(token), 1
 
 def load_url(url, timeout):
     ans = requests.get(url, timeout=timeout)
@@ -127,8 +128,10 @@ print(data)
 np.savetxt("def_evaluation.csv", data, delimiter=",")
 
 '''
+prueba = ['+', '7', '+', '/', '+', 'y', '*', 'y', 'z', '-', '/', 'x', 'y', 'z', '+', '+', '-', 'y', 'z', 'x', '3.615', '-', '5.632', '-', '-', '-', '+', 'z', 'y', 'x', '5.855', '/', 'z', 'z', 'x']
 
-c=common.Chromo()
-c.allels="/y+xz"
-print(c.allels)
-print(evaluate(c))
+prefixParse(prueba,1,2,3)
+#c=common.Chromo()
+#c.allels="/y+xz"
+#print(c.allels)
+#print(evaluate(c))
