@@ -31,7 +31,7 @@ def mutation (Chrom):
         if Chrom[i] not in common.symbolTable['functions']: #Si se inserta en un nodo hoja simplemente se sustituye por este.
             Chrom[i] = strNewSubTree
         else:
-            index = common.getSection(Chrom,i) #Si no, se obtiene a través de esta función la sección del árbol que hay que reemplazar.
+            index = common.getSection(Chrom,i) #Si no, se obtiene a traves de esta función la sección del árbol que hay que reemplazar.
             del Chrom [index[0]+1:index[-1]+1] #Se borran esos índices del cromosoma.
             Chrom[i] = strNewSubTree #Se inserta el nuevo subárbol.
 

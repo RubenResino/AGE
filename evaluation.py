@@ -103,34 +103,35 @@ def evaluate(chromosome):
         '''
 
 
-'''
-data=np.empty([100,4])
+
+data=np.empty([10000,4])
 i=0
 random.seed(42)
-while i<100:
+while i<10000:
 
 
 
     d1=random.randint(1,365)
     d2=random.randint(1,500)
     d3=random.randint(0,100)
-    d4=random.randint(5,100)
+    d4=random.randint(1,1000)
     r=requests.get("http://memento.evannai.inf.uc3m.es/age/eci1?days={}&seats={}&demand={}&price={}".format(d1,d2,d3,d4))
     r_float=float(r.text)
 
     #print(aux_arr)
 
     if r_float not in data[:,3]:
+        print(i)
         data[i]=np.array([d1,d2,d3,r_float])
         i+=1
 
 print(data)
-np.savetxt("def_evaluation.csv", data, delimiter=",")
+np.savetxt("def_evaluation_2.csv", data, delimiter=",")
 
-'''
-prueba = ['+', '7', '+', '/', '+', 'y', '*', 'y', 'z', '-', '/', 'x', 'y', 'z', '+', '+', '-', 'y', 'z', 'x', '3.615', '-', '5.632', '-', '-', '-', '+', 'z', 'y', 'x', '5.855', '/', 'z', 'z', 'x']
 
-prefixParse(prueba,1,2,3)
+#prueba = ['+', '7', '+', '/', '+', 'y', '*', 'y', 'z', '-', '/', 'x', 'y', 'z', '+', '+', '-', 'y', 'z', 'x', '3.615', '-', '5.632', '-', '-', '-', '+', 'z', 'y', 'x', '5.855', '/', 'z', 'z', 'x']
+
+#prefixParse(prueba,1,2,3)
 #c=common.Chromo()
 #c.allels="/y+xz"
 #print(c.allels)
