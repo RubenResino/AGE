@@ -64,7 +64,7 @@ def initIndiv(maxDepth,mode):
     	return indiv
     #If 1 returns a terminal
     if(maxDepth==1):
-    	return [common.getSymbol(terminal_)]
+    	return [getRandomCte(common.getSymbol(terminal_))]
 
     ##########TREE CREATION
     for currentDepth in range(maxDepth):
@@ -131,8 +131,6 @@ def initPopulation(popSize):
 			chromoIndiv.allels=initIndiv(depth,mode)
 			population.append(chromoIndiv)
 			numIndivs-=1
-
-		common.population=population
 	return population
 
 """
