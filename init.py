@@ -21,7 +21,7 @@ def getRandomCte(element):
 #Create a node of the tree according to the type
 def createNode(mode, currentDepth):
 	newNode=[getRandomCte(common.getSymbol(mode)),currentDepth,[],"no"]
-	if newNode[element_] in common.symbolTable['terminals']:
+	if newNode[element_] in common.symbolTable['terminals']: #!!!!!!!!!!!!!!!!!!!CORREGIR. NO SE COMPRUEBAN LOS FLOATS
 		newNode[son_].append(-1)
 	return newNode
 
