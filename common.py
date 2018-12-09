@@ -126,7 +126,17 @@ def getSection(c_allels, i_head):
     return (i_head, i_tail)
 
 def determineNode(node):
+    #Functions
     if node in symbolTable["functions"]:
-        return "fun"
-    if node in symbolTable["terminals"] or isinstance(node,float):
-        return "ter"
+        return 0
+    #Terminals
+    if node in symbolTable["terminals"]:
+        #If 'cte', error
+        if node is "cte":
+            print("Error: 'cte' on a tree")
+            return -1
+        #Otherwise, terminal
+        else:
+            return 1
+    #None of the above, guess it is a float
+    return 1

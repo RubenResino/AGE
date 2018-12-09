@@ -110,12 +110,11 @@ for i in range(ARG_ALG_ITERS):
 
     while len(INTERMEDIATE) < POP_LEN:
 
-
-
         start = time.time()
 
 		# Sorts population list
         POPULATION.sort(key = lambda x: x.fitness, reverse = False)
+
 		# Populates intermediate list with best individuals
         best_fitness = POPULATION[0].fitness
         limit_fitness = best_fitness - (best_fitness * ARG_ALG_RANGERATIO)
@@ -134,8 +133,14 @@ for i in range(ARG_ALG_ITERS):
         print("Mantener padres: ",time.time()-start)
         start = time.time()
 
+        #If there is only one element left we force the mutations
+        if (len(INTERMEDIATE)==POP_LEN-1):
+        	prob=80
+        else:
+        	prob=random.randint(0, 100)
+
     	# Choses between mutation or crossing
-        if random.randint(0, 100) < ARG_ALG_CROSSRATIO:
+        if  prob < ARG_ALG_CROSSRATIO:
             print(">>> SELECTING INDIVIDUAL")
             parents = (selection.tournament(POPULATION, ARG_SEL_TSIZE), selection.tournament(POPULATION, ARG_SEL_TSIZE))
             print(">>> CROSSING INDIVIDUAL")

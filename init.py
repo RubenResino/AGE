@@ -21,7 +21,7 @@ def getRandomCte(element):
 #Create a node of the tree according to the type
 def createNode(mode, currentDepth):
 	newNode=[getRandomCte(common.getSymbol(mode)),currentDepth,[],"no"]
-	if newNode[element_] in common.symbolTable['terminals']: #!!!!!!!!!!!!!!!!!!!CORREGIR. NO SE COMPRUEBAN LOS FLOATS
+	if common.determineNode(newNode[element_]) is terminal_: 
 		newNode[son_].append(-1)
 	return newNode
 
@@ -39,7 +39,7 @@ def determineMode(currentDepth, maxDepth, mode):
 def addSons(indiv, currentDepth, maxDepth, mode):
 	for node in indiv: #Go trhought all the nodes of the tree
 		if(node[depth_]==currentDepth-1): #Check if the node is a posible parent for the current depth, this is, the current depth minus one
-			if node[element_] in common.symbolTable['functions']: #Check if the node is a function, this is, it can have sons
+			if common.determineNode(node[element_]) is function_: #Check if the node is a function, this is, it can have sons
 				for x in range(common.getArity(node[element_])): #We execute this as many times as children can have the element
 					#Create the a son
 					indiv.append(createNode(determineMode(currentDepth, maxDepth, mode),currentDepth))
