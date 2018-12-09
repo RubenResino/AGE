@@ -83,6 +83,8 @@ def maxmeanFit(population):
 
     for individual in population:
         fit_ind = individual.fitness
+        print(fit_ind)
+        print(type(fit_ind))
         fit_acum += fit_ind
 
         if fit_ind > fit_max:

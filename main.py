@@ -1,17 +1,77 @@
 import common
 import init, selection, crossing, mut, evaluation,fakeeval
-import time, numpy as np, random
+import time, numpy as np, random, threading
 
 POPULATION = None
 POP_LEN = 50
 INTERMEDIATE = None
 
 """
+    Multithreading
+"""
+MT_T_NUMB = 4   # Number of threads
+
+# Generic method to run some chunk of data in some other method
+# This is used when slicing a loop with multithreading
+# "data" is a list of elements that the called method must iterate through
+def task_slice(data, method):
+    method(data)
+
+# Generic method to fire a method either using threading or not
+# "data" is a list of elements that the called method must iterate through
+def task_fire(data, method, using_threading):
+    # Threading disabled. Runs method as usual
+    if not using_threading:
+        method(data)
+
+    # Enables threading capabilities
+    else:
+        # Where threads will be stored
+        t_list = []
+
+        # Splits task in available threads. Data should be splitted too
+        for t in range(MT_T_NUMB):
+            i_split = t * MT_T_NUMB
+
+            # Splitted data list
+            t_data = data[i_split : (i_split + int(len(data) / MT_T_NUMB) + 1)]
+
+            # Creates thread. target is the method to run, args are its arguments...
+            thread = threading.Thread(target = task_slice, args = (t_data, method))
+
+            # Starts and appends thread to thread list
+            thread.start()
+            t_list.append(thread)
+
+        # Once every thread has been initialized, we'll check its number
+        print("Active threads: ", str(threading.activeCount()))
+
+        # Waits for threads to finish
+        for t in t_list:
+            t.join()
+        print("Task is over")
+
+        # Empties thread list
+        t_list = []
+
+
+# Dummy evaluation method. Evaluates a whole population.
+# This should be defined elsewhere...
+def evaluate_bulk(population):
+    for i, individual in enumerate(population):
+        individual.fitness = fakeeval.evaluate(individual)
+        print("<<< ", i)
+
+
+
+
+
+"""
     Algortihm arguments
 """
 ARG_SEL_TSIZE = 3           				# Selection; tournament size
 ARG_CRS_SWAPS = 2           				# Crossing; number of chromosome swaps in each crossing
-ARG_ALG_ITERS = 50          				# Iterations through algorithm
+ARG_ALG_ITERS = 1             				# Iterations through algorithm
 ARG_ALG_tFEED = 10          				# When to print feedback
 ARG_ALG_RANGERATIO = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
 ARG_ALG_BESTPICKS = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
@@ -33,13 +93,20 @@ for i in range(ARG_ALG_ITERS):
     print(">>> EVALUATING INDIVIDUALS")
 		#Sets the fitness of the population
 
-    start = time.time()
+    # start = time.time()
+    """
     for i, individual in enumerate(POPULATION):
-        individual.fitness = evaluation.evaluate(individual)
-    	print("<<< ", i)
-    print("popLen: ", len(POPULATION))
-    print("Primera evaluacion: ",time.time()-start)
-    print("Maximo y media: ", common.maxmeanFit(POPULATION))
+        individual.fitness = fakeeval.evaluate(individual)
+        print("<<< ", i)
+    """
+
+    # Evaluation
+    # When threading is enabled, evaluation across population is asynchronous
+    task_fire(POPULATION, evaluate_bulk, True)
+
+    # print("popLen: ", len(POPULATION))
+    # print("Primera evaluacion: ",time.time()-start)
+    # print("Maximo y media: ", common.maxmeanFit(POPULATION))
 
     while len(INTERMEDIATE) < POP_LEN:
 
