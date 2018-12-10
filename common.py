@@ -5,6 +5,9 @@ import math
 # List of the whole population
 #POPULATION = None
 
+function_=0
+terminal_=1
+
 #Chromosoma structure
 class Chromo:
     allels = []
@@ -104,7 +107,7 @@ def getSection(c_allels, i_head):
 
     #if symbol is terminal, then replace only a single element
     #else, replace the whole expression checking its arity
-    if symbol in symbolTable["terminals"]:
+    if determineNode(symbol) is terminal_:
         return (i_head, i_tail)
 
     symbol_arity = getArity(symbol)

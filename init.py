@@ -9,29 +9,26 @@ depth_ = 1
 son_ = 2
 written_ = 3
 
-#Index of the difference types
-function_ = 0
-terminal_ = 1
 both_ = 2
 
 # Gets a node and return it if it not cte. Otherwise, it returns a random float
 def getRandomCte(element):
-	return (str)(round(random.uniform(0,10),3)) if (element is 'cte') else element
+	return str(round(random.uniform(0.1,10),3)) if (element is 'cte') else element
 
 #Create a node of the tree according to the type
 def createNode(mode, currentDepth):
 	newNode=[getRandomCte(common.getSymbol(mode)),currentDepth,[],"no"]
-	if common.determineNode(newNode[element_]) is terminal_: 
+	if common.determineNode(newNode[element_]) is common.terminal_: 
 		newNode[son_].append(-1)
 	return newNode
 
 #Determines the type of the node which will be created
 def determineMode(currentDepth, maxDepth, mode):
 	if(currentDepth==maxDepth-1): #Max depth will always be a terminal
-		return terminal_
+		return common.terminal_
 	else: #In other case
 		if(mode=='full'): #If full all nodes will be functions
-			return function_
+			return common.function_
 		elif (mode=='grow'): #If grow all nodes less dept 0 and max-1 will be selected randomly
 			return both_
 
@@ -39,7 +36,7 @@ def determineMode(currentDepth, maxDepth, mode):
 def addSons(indiv, currentDepth, maxDepth, mode):
 	for node in indiv: #Go trhought all the nodes of the tree
 		if(node[depth_]==currentDepth-1): #Check if the node is a posible parent for the current depth, this is, the current depth minus one
-			if common.determineNode(node[element_]) is function_: #Check if the node is a function, this is, it can have sons
+			if common.determineNode(node[element_]) is common.function_: #Check if the node is a function, this is, it can have sons
 				for x in range(common.getArity(node[element_])): #We execute this as many times as children can have the element
 					#Create the a son
 					indiv.append(createNode(determineMode(currentDepth, maxDepth, mode),currentDepth))
@@ -64,12 +61,12 @@ def initIndiv(maxDepth,mode):
     	return indiv
     #If 1 returns a terminal
     if(maxDepth==1):
-    	return [getRandomCte(common.getSymbol(terminal_))]
+    	return [getRandomCte(common.getSymbol(common.terminal_))]
 
     ##########TREE CREATION
     for currentDepth in range(maxDepth):
         if (currentDepth==0): #Root node will be a function
-            indiv.append(createNode(function_,currentDepth))
+            indiv.append(createNode(common.function_,currentDepth))
         else:
         	indiv=addSons(indiv, currentDepth, maxDepth, mode)
 
