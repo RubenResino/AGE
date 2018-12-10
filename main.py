@@ -76,20 +76,20 @@ def evaluate_bulk(population):
 
 
 
-print(">>> INITIALIZING POP.")
-#Initializes popuplation
+# print(">>> INITIALIZING POP.")
+# Initializes popuplation
 POPULATION = init.initPopulation(POP_LEN)
-print(POPULATION[0])
+# print(POPULATION[0])
 #POP_LEN = len(POPULATION)
-print("<<< POP. INITIALIZED - SIZE:", POP_LEN)
+# print("<<< POP. INITIALIZED - SIZE:", POP_LEN)
 
 # DOGEN
 for i in range(ARG_ALG_ITERS):
     INTERMEDIATE = []
-    print("Iteracion: ",i)
+    # print("Iteracion: ",i)
 
-    print("popLen: ", len(POPULATION))
-    print(">>> EVALUATING INDIVIDUALS")
+    # print("popLen: ", len(POPULATION))
+    # print(">>> EVALUATING INDIVIDUALS")
 		#Sets the fitness of the population
 
     # start = time.time()
@@ -103,34 +103,31 @@ for i in range(ARG_ALG_ITERS):
     # When threading is enabled, evaluation across population is asynchronous
     task_fire(POPULATION, evaluate_bulk, True)
 
+
+	# Sorts population list
+    POPULATION.sort(key = lambda x: x.fitness, reverse = False)
+
+	# Populates intermediate list with best individuals
+    best_fitness = POPULATION[0].fitness
+    limit_fitness = best_fitness - (best_fitness * ARG_ALG_RANGERATIO)
+
+
+
+    for individual in range(ARG_ALG_BESTPICKS):
+		# If individual fitness is greater than the specified range, stop loop
+        if POPULATION[individual].fitness < limit_fitness:
+            break
+
+		# Push individual to intermediate list
+        INTERMEDIATE.append(POPULATION[individual])
+
+
+
     # print("popLen: ", len(POPULATION))
     # print("Primera evaluacion: ",time.time()-start)
     # print("Maximo y media: ", common.maxmeanFit(POPULATION))
 
     while len(INTERMEDIATE) < POP_LEN:
-
-        start = time.time()
-
-		# Sorts population list
-        POPULATION.sort(key = lambda x: x.fitness, reverse = False)
-
-		# Populates intermediate list with best individuals
-        best_fitness = POPULATION[0].fitness
-        limit_fitness = best_fitness - (best_fitness * ARG_ALG_RANGERATIO)
-        print("Ordenacion: ",time.time()-start)
-
-        start = time.time()
-
-        for individual in range(ARG_ALG_BESTPICKS):
-			# If individual fitness is greater than the specified range, stop loop
-            if POPULATION[individual].fitness < limit_fitness:
-                break
-
-			# Push individual to intermediate list
-            INTERMEDIATE.append(POPULATION[individual])
-
-        print("Mantener padres: ",time.time()-start)
-        start = time.time()
 
         #If there is only one element left we force the mutations
         if (len(INTERMEDIATE)==POP_LEN-1):
@@ -140,16 +137,15 @@ for i in range(ARG_ALG_ITERS):
 
     	# Choses between mutation or crossing
         if  prob < ARG_ALG_CROSSRATIO:
-            print(">>> SELECTING INDIVIDUAL")
+            # print(">>> SELECTING INDIVIDUAL")
             parents = (selection.tournament(POPULATION, ARG_SEL_TSIZE), selection.tournament(POPULATION, ARG_SEL_TSIZE))
-            print(">>> CROSSING INDIVIDUAL")
-            print("Aqui")
+            # print(">>> CROSSING INDIVIDUAL")
             for child in crossing.love(parents, ARG_CRS_SWAPS):
 
                 # Creates a Chromo object to pass to the new population
                 newIndiv = common.Chromo(child)
                 INTERMEDIATE.append(newIndiv)
-            print("final")
+
         else:
             newIndiv = common.Chromo(mut.mutation(selection.tournament(POPULATION, ARG_SEL_TSIZE)))
             INTERMEDIATE.append(newIndiv)
