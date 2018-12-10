@@ -7,6 +7,17 @@ POP_LEN = 50
 INTERMEDIATE = None
 
 """
+    Algortihm arguments
+"""
+ARG_SEL_TSIZE = 3           				# Selection; tournament size
+ARG_CRS_SWAPS = 2           				# Crossing; number of chromosome swaps in each crossing
+ARG_ALG_ITERS = 50             				# Iterations through algorithm
+ARG_ALG_tFEED = 10          				# When to print feedback
+ARG_ALG_RANGERATIO = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
+ARG_ALG_BESTPICKS = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
+ARG_ALG_CROSSRATIO = 100
+
+"""
     Multithreading
 """
 MT_T_NUMB = 4   # Number of threads
@@ -59,23 +70,11 @@ def task_fire(data, method, using_threading):
 # This should be defined elsewhere...
 def evaluate_bulk(population):
     for i, individual in enumerate(population):
-        individual.fitness = fakeeval.evaluate(individual)
+        individual.fitness = evaluation.evaluate(individual)
         print("<<< ", i)
 
 
 
-
-
-"""
-    Algortihm arguments
-"""
-ARG_SEL_TSIZE = 3           				# Selection; tournament size
-ARG_CRS_SWAPS = 2           				# Crossing; number of chromosome swaps in each crossing
-ARG_ALG_ITERS = 1             				# Iterations through algorithm
-ARG_ALG_tFEED = 10          				# When to print feedback
-ARG_ALG_RANGERATIO = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
-ARG_ALG_BESTPICKS = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
-ARG_ALG_CROSSRATIO = 100
 
 print(">>> INITIALIZING POP.")
 #Initializes popuplation
