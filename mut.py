@@ -27,20 +27,19 @@ def mutation (Chrom):
         choosenTree = random.choice(treeType)
         treeDepth = randint(2,9)
         newSubTree = init.initIndiv(treeDepth,choosenTree) #Llamada a la funcion que devuelve un nuevo subarbol
-        strNewSubTree = ''.join(newSubTree)
         if common.determineNode(Chrom[i]) is common.terminal_: #Si se inserta en un nodo hoja simplemente se sustituye por este.
-            Chrom[i] = strNewSubTree
+	    del Chrom[i]
+            Chrom[i:i] = newSubTree
         else:
             index = common.getSection(Chrom,i) #Si no, se obtiene a traves de esta funcion la seccion del arbol que hay que reemplazar.
-            del Chrom [index[0]+1:index[-1]+1] #Se borran esos indices del cromosoma.
-            Chrom[i] = strNewSubTree #Se inserta el nuevo subarbol.
-
-    strChrom =''.join(Chrom)
-    Chrom = list(strChrom) #Se transforma el individuo al formato que tiene Chrom.allels.
+            del Chrom [index[0]:index[-1]+1] #Se borran esos indices del cromosoma.
+            Chrom[i:i] = newSubTree #Se inserta el nuevo subarbol.
+	
     print(Chrom)
     return Chrom
 
-""" TEST
+"""TEST
 test = [["+43"],["*x2"],["/zy"]]
 result = mutation(test[0])
 """
+
