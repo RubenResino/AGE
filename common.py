@@ -81,7 +81,7 @@ def getSymbol(type):
 #Returns max and mean fitness of a given population
 def maxmeanFit(population):
     pop_len = len(population)
-    fit_max = 0
+    fit_max = -99999999
     fit_acum = 0
 
     for individual in population:
@@ -94,6 +94,8 @@ def maxmeanFit(population):
             fit_max = fit_ind
 
     fit_acum /= pop_len
+
+    print("Mejor individuo: ",fit_max," Puntuacion media ",fit_acum)
 
     return (fit_max, fit_acum)
 

@@ -54,7 +54,7 @@ def load_url(url, timeout):
 def evaluate(chromosome):
     out = []
     CONNECTIONS = 100   # Number of threads to use
-    TIMEOUT = 5
+    TIMEOUT = 10
     urls = []
     '''
     fitness=0
@@ -81,7 +81,7 @@ def evaluate(chromosome):
     with concurrent.futures.ThreadPoolExecutor(max_workers = CONNECTIONS) as executor:
         #future_to_url = (executor.submit(load_url, url) for url in urls)
 
-        m=list(executor.map(load_url,urls,np.ones(100)))
+        m=list(executor.map(load_url,urls,np.repeat(TIMEOUT,100)))
         media = np.mean(m)
         return media
         #executor.wait(future_to_url, timeout=TIMEOUT, return_when=ALL_COMPLETED)

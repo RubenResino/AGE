@@ -55,12 +55,12 @@ def task_fire(data, method, using_threading):
             t_list.append(thread)
 
         # Once every thread has been initialized, we'll check its number
-        print("Active threads: ", str(threading.activeCount()))
+        #print("Active threads: ", str(threading.activeCount()))
 
         # Waits for threads to finish
         for t in t_list:
             t.join()
-        print("Task is over")
+        #print("Task is over")
 
         # Empties thread list
         t_list = []
@@ -71,7 +71,7 @@ def task_fire(data, method, using_threading):
 def evaluate_bulk(population):
     for i, individual in enumerate(population):
         individual.fitness = evaluation.evaluate(individual)
-        print("<<< ", i)
+        #print("<<< ", i)
 
 
 
@@ -86,7 +86,7 @@ POPULATION = init.initPopulation(POP_LEN)
 # DOGEN
 for i in range(ARG_ALG_ITERS):
     INTERMEDIATE = []
-    # print("Iteracion: ",i)
+    print("Iteracion: ",i)
 
     # print("popLen: ", len(POPULATION))
     # print(">>> EVALUATING INDIVIDUALS")
@@ -101,12 +101,14 @@ for i in range(ARG_ALG_ITERS):
 
     # Evaluation
     # When threading is enabled, evaluation across population is asynchronous
-    task_fire(POPULATION, evaluate_bulk, True)
+    #task_fire(POPULATION, evaluate_bulk, True)
+    evaluate_bulk(POPULATION)
 
 
 	# Sorts population list
     POPULATION.sort(key = lambda x: x.fitness, reverse = False)
-
+    common.maxmeanFit(POPULATION)
+    print(POPULATION[0].allels)
 	# Populates intermediate list with best individuals
     best_fitness = POPULATION[0].fitness
     limit_fitness = best_fitness - (best_fitness * ARG_ALG_RANGERATIO)
@@ -119,7 +121,8 @@ for i in range(ARG_ALG_ITERS):
             break
 
 		# Push individual to intermediate list
-        INTERMEDIATE.append(POPULATION[individual])
+        INTERMEDIATE.append(copy.deepcopy(POPULATION[individual]))
+
 
 
 
@@ -149,6 +152,6 @@ for i in range(ARG_ALG_ITERS):
         else:
             newIndiv = common.Chromo(mut.mutation(selection.tournament(POPULATION, ARG_SEL_TSIZE)))
             INTERMEDIATE.append(newIndiv)
-        print("Generacion individuos: ",time.time()-start)
+        #print("Generacion individuos: ",time.time()-start)
 
     POPULATION = INTERMEDIATE
