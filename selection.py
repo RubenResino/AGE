@@ -18,7 +18,7 @@ def RouletteMethod(population, selective_pressure):
     popOrdenada = sorted(popInicial, key=lambda x: x.fitness, reverse=True)         #Se ordena la poblacion por su fitness, de mayor a menor
     fitness_ruleta = []
    
-    for i in range(numIndividuos):                                                  #Se calcula el fitness de ruleta proporcional a cada individuo según su ranking y se suma esa cantidad a la suma total de fitness
+    for i in range(numIndividuos):                                                  #Se calcula el fitness de ruleta proporcional a cada individuo segun su ranking y se suma esa cantidad a la suma total de fitness
         fitness_ruleta.append (2 - selective_pressure + 2 * (selective_pressure - 1) * ((numIndividuos - i ) - 1 / numIndividuos - 1))
         sumaMax += (2 - selective_pressure + 2 * (selective_pressure - 1) * ((numIndividuos - i ) - 1 / numIndividuos - 1))
    

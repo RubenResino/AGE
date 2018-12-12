@@ -106,12 +106,12 @@ for i in range(ARG_ALG_ITERS):
 
 
 	# Sorts population list
-    POPULATION.sort(key = lambda x: x.fitness, reverse = False)
+    POPULATION.sort(key = lambda x: x.fitness, reverse = True)
     common.maxmeanFit(POPULATION)
     print(POPULATION[0].allels)
 	# Populates intermediate list with best individuals
     best_fitness = POPULATION[0].fitness
-    limit_fitness = best_fitness - (best_fitness * ARG_ALG_RANGERATIO)
+    limit_fitness = best_fitness - abs(best_fitness * ARG_ALG_RANGERATIO)
 
 
 
