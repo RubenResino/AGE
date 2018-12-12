@@ -53,7 +53,7 @@ def load_url(url, timeout):
 
 def evaluate(chromosome):
     out = []
-    CONNECTIONS = 100   # Number of threads to use
+    CONNECTIONS = 12   # Number of threads to use
     TIMEOUT = 10
     urls = []
     '''
