@@ -1,4 +1,5 @@
 import common
+import copy
 import init, selection, crossing, mut, evaluation,fakeeval
 import time, numpy as np, random, threading
 
@@ -15,7 +16,7 @@ ARG_ALG_ITERS = 50             				# Iterations through algorithm
 ARG_ALG_tFEED = 10          				# When to print feedback
 ARG_ALG_RANGERATIO = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
 ARG_ALG_BESTPICKS = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
-ARG_ALG_CROSSRATIO = 100
+ARG_ALG_CROSSRATIO = 0.7 
 
 """
     Multithreading
@@ -134,9 +135,9 @@ for i in range(ARG_ALG_ITERS):
 
         #If there is only one element left we force the mutations
         if (len(INTERMEDIATE)==POP_LEN-1):
-        	prob=80
+        	prob=0.8
         else:
-        	prob=random.randint(0, 100)
+        	prob=random.random()
 
     	# Choses between mutation or crossing
         if  prob < ARG_ALG_CROSSRATIO:

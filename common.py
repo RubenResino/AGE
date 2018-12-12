@@ -1,5 +1,6 @@
 import random
 import math
+import sys
 
 # Structures of the common elements
 # List of the whole population
@@ -138,7 +139,7 @@ def determineNode(node):
     if node in symbolTable["terminals"]:
         #If 'cte', error
         if node is "cte":
-            print("Error: 'cte' on a tree")
+            sys.exit("Error: 'cte' on a tree")
             return -1
         #Otherwise, terminal
         else:
