@@ -21,7 +21,6 @@ def getBlocks(chromo, i_section):
 #this should take a tuple of individuals
 #no return needed. Operates over references
 def love(parents, n_swaps = 1):
-    print("Llega")
     # Method will operate over the original data
 
     #As many crossings as specify in n_swaps
