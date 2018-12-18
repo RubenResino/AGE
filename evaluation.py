@@ -44,7 +44,7 @@ def prefixParse(code,a,b,c):
         elif operator.arity == 0:
             #Devuelve el valor de la constante y el tamano de la rama (1)
             return operator(), 1
-    #Si no es una operación (se comporta igual que aridad 0)
+    #Si no es una operacion (se comporta igual que aridad 0)
     else:                   #elif token in common.symbolTable["terminals"]:
         #Si es una incognita devuelve el valor de la incognita
         if token=='x':
