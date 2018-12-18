@@ -40,7 +40,9 @@ def trydivide(a,b):
     if b!=0:
         return a/b
     else:
-        raise ZeroDivisionError
+        return a/0.001
+        #raise ZeroDivisionError
+       
 
 operatorTable = {'+' : Operator(2, lambda a,b: a+b),
                 '-' : Operator(2, lambda a,b: a-b),
@@ -112,6 +114,7 @@ def maxmeanFit(population):
 ##  i_head: leading index of the section
 def getSection(c_allels, i_head):
     i_tail = i_head
+    
     symbol = c_allels[i_head]
 
     #if symbol is terminal, then replace only a single element
