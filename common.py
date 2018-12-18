@@ -84,19 +84,25 @@ def maxmeanFit(population):
     pop_len = len(population)
     fit_max = -99999999
     fit_acum = 0
+    mean_len = 0
+    best_individual = None
 
     for individual in population:
         fit_ind = individual.fitness
         #print(fit_ind)
         #print(type(fit_ind))
         fit_acum += fit_ind
+        mean_len += len(individual.allels)
 
         if fit_ind > fit_max:
             fit_max = fit_ind
+            best_individual = individual
 
     fit_acum /= pop_len
+    mean_len /= pop_len
 
     print("Mejor individuo: ",fit_max," Puntuacion media ",fit_acum)
+    print("Tamaño medio del cromosoma: ", mean_len, " Tamaño mejor individuo: ", len(best_individual.allels))
 
     return (fit_max, fit_acum)
 

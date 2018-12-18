@@ -18,7 +18,7 @@ def getRandomCte(element):
 #Create a node of the tree according to the type
 def createNode(mode, currentDepth):
 	newNode=[getRandomCte(common.getSymbol(mode)),currentDepth,[],"no"]
-	if common.determineNode(newNode[element_]) is common.terminal_: 
+	if common.determineNode(newNode[element_]) is common.terminal_:
 		newNode[son_].append(-1)
 	return newNode
 
@@ -56,9 +56,12 @@ def initIndiv(maxDepth,mode):
     if(maxDepth<0):
     	print("Error: negative depth")
     	return
+		
     #If 0 returns an empty list
     if(maxDepth==0):
+    	print("Warning: empty individual")
     	return indiv
+
     #If 1 returns a terminal
     if(maxDepth==1):
     	return [getRandomCte(common.getSymbol(common.terminal_))]

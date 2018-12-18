@@ -150,7 +150,7 @@ for i in range(ARG_iterations):
             # print(">>> SELECTING INDIVIDUAL")
             parents = (METH_selectingMethod(POPULATION, ARG_selectingMethodParam), METH_selectingMethod(POPULATION, ARG_selectingMethodParam))
             # print(">>> CROSSING INDIVIDUAL")
-            for child in crossing.love(parents, ARG_crossingSwaps):
+            for child in crossing.love(parents, ARG_crossingSwaps, True, 1):
 
                 # Creates a Chromo object to pass to the new population
                 newIndiv = common.Chromo(child)
