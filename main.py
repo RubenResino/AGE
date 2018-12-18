@@ -13,22 +13,42 @@ INTERMEDIATE = None
 METH_selectionTournament = getattr(selection, "tournament")
 METH_selectionRoulette = getattr(selection, "RouletteMethod")
 
+#Init arguments
 ARG_initTreeLimitNodes = 100					# Init: limit number of nodes for the tree
-ARG_mutTreeLimitNodes = int(ARG_initTreeLimitNodes*0.3) #Mut: limit number for the subtrees generated
 ARG_initGrowProb = 0.8							# Init: probability of trees with mode grow
 ARG_initTreeMaxDepth = 9						# Init: maximum depth of the trees
+
+#Selection arguments
 ARG_tournamentSize = 3           				# Selection; tournament size
 ARG_selectivePressure = 1.5                     # Selection; selective pressure
-ARG_crossingSwaps = 1           				# Crossing; number of chromosome swaps in each crossing
-ARG_iterations = 500             				# Max iterations through algorithm
-ARG_itersPerFeedback = 1          				# When to print feedback
-ARG_goodFitnessRatio = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
-ARG_maxIndividualsKept = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
-ARG_crossingRatio = 0.8                         # Percent. Probability of picking crossing against mutation on each iteration
-ARG_mutationTreeDepth = 3                       # Max depth of the tree generated in mutation
-METH_selectingMethod = METH_selectionTournament # Selecting method using during population generation.
 ARG_selectingMethodParam = ARG_tournamentSize   # if tournament, param is tournament size, if roulette, param is selective pressure
+METH_selectingMethod = METH_selectionTournament # Selecting method using during population generation.
+
+#Crossing
+ARG_crossingSwaps = 1           				# Crossing; number of chromosome swaps in each crossing
+ARG_crossingBalace = False
+ARG_crossingMaxDebalance = 2
+
+#Mutation
+ARG_notSimpleMut = 0.4
+ARG_mutTreeLimitNodes = int(ARG_initTreeLimitNodes*0.3) #Mut: limit number for the subtrees generated
+ARG_mutationTreeDepth = 3                       		# Max depth of the tree generated in mutation
+
+#Evaluation
 ARG_maxIdleIters = 50                           # number of consecutive iterations the algorithm should run with the same best individual to stop
+
+#Main
+ARG_maxIndividualsKept = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
+ARG_goodFitnessRatio = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
+ARG_crossingRatio = 0.8                         # Percent. Probability of picking crossing against mutation on each iteration
+
+
+#Otros
+ARG_itersPerFeedback = 1          				# When to print feedback
+ARG_iterations = 500             				# Max iterations through algorithm
+
+
+################################################################################################
 
 ARG_selectionName = None
 
@@ -101,7 +121,7 @@ def evaluate_bulk(population):
         individual.fitness = evaluation.evaluate(individual)
         #print("<<< ", i)
 
-
+##################################################################################################
 
 
 # print(">>> INITIALIZING POP.")
@@ -188,7 +208,7 @@ for i in range(ARG_iterations):
 
         #If there is only one element left we force the mutations
         if (len(INTERMEDIATE)==POP_LEN-1):
-        	prob=0.8
+        	prob=ARG_crossingRatio+0.1
         else:
         	prob=random.random()
 
@@ -197,14 +217,14 @@ for i in range(ARG_iterations):
             # print(">>> SELECTING INDIVIDUAL")
             parents = (METH_selectingMethod(POPULATION, ARG_selectingMethodParam), METH_selectingMethod(POPULATION, ARG_selectingMethodParam))
             # print(">>> CROSSING INDIVIDUAL")
-            for child in crossing.love(parents, ARG_crossingSwaps, True, 1):
+            for child in crossing.love(parents, ARG_crossingSwaps, ARG_crossingBalace, ARG_crossingMaxDebalance):
 
                 # Creates a Chromo object to pass to the new population
                 newIndiv = common.Chromo(child)
                 INTERMEDIATE.append(newIndiv)
 
         else:
-            newIndiv = common.Chromo(mut.mutation(METH_selectingMethod(POPULATION, ARG_selectingMethodParam), ARG_mutationTreeDepth,ARG_mutTreeLimitNodes))
+            newIndiv = common.Chromo(mut.mutation(METH_selectingMethod(POPULATION, ARG_selectingMethodParam), ARG_mutationTreeDepth,ARG_mutTreeLimitNodes, ARG_notSimpleMut))
             INTERMEDIATE.append(newIndiv)
         #print("Generacion individuos: ",time.time()-start)
 

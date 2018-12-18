@@ -3,12 +3,11 @@ import common
 import init
 from random import randint
 
-def mutation (Chrom, treeDepth, maxNodes):
+def mutation (Chrom, treeDepth, maxNodes, notSimpleMutationRatio):
 
 	#Parametros del problema:
     treeType = ['grow','full']
     #treeDepth = 0
-    notSimpleMutationRatio = 0.4
     newOperatorArity = 0
 
     i = randint(0,len(Chrom)-1) #Se elige un alelo aleatorio del cromosoma.
