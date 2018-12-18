@@ -34,7 +34,12 @@ class Operator:
     def __call__(self, *args):
         assert(len(args) == self.arity)
         return self.function(*args)
-
+    
+def cleanPop(population):
+    for idx, p in enumerate(population):
+        if len(population[idx].allels) == 0:
+            population[idx].allels = ["0"]
+    return population
 
 def trydivide(a,b):
     if b!=0:
