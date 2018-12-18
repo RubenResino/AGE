@@ -44,7 +44,7 @@ def addSons(indiv, currentDepth, maxDepth, mode):
 					node[son_].append(len(indiv)-1)
 	return indiv
 
-def initIndiv(maxDepth,mode):
+def initIndiv(mode,maxDepth,maxNodes):
 	#List of list: the 2nds will be: [element, depth, [sons], written]
 	#The sons sublist will give the index of the son on the indiv list
 	#Terminals will have a -1 as child to indicate they dont have children
@@ -65,12 +65,18 @@ def initIndiv(maxDepth,mode):
     if(maxDepth==1):
     	return [getRandomCte(common.getSymbol(common.terminal_))]
 
+    DEPTH=maxDepth
+
     ##########TREE CREATION
-    for currentDepth in range(maxDepth):
+    currentDepth=0
+    while(currentDepth<DEPTH):
         if (currentDepth==0): #Root node will be a function
             indiv.append(createNode(common.function_,currentDepth))
         else:
-        	indiv=addSons(indiv, currentDepth, maxDepth, mode)
+        	indiv=addSons(indiv, currentDepth, DEPTH, mode)
+        if(len(indiv)>maxNodes and currentDepth!=DEPTH-1):
+        	DEPTH=currentDepth+2
+        currentDepth+=1
 
     #To store the final chromosoma
     newIndiv = []
@@ -104,7 +110,7 @@ def initIndiv(maxDepth,mode):
     return newIndiv
 
 #Till the pop is full
-def initPopulation(popSize,growProb,maxDepth):
+def initPopulation(popSize,growProb,maxDepth,maxNodes):
 	#Generate the whole population
 	population=[]
 
@@ -131,13 +137,13 @@ def initPopulation(popSize,growProb,maxDepth):
 		#Create num_indivs with the given configuration
 		while (numIndivs!=0):
 			chromoIndiv=common.Chromo()
-			chromoIndiv.allels=initIndiv(depth,mode)
+			chromoIndiv.allels=initIndiv(mode,depth,maxNodes)
 			population.append(chromoIndiv)
 			numIndivs-=1
 	return population
 
 """
-pop=initPopulation(50)
+pop=initPopulation(10,0,9,50)
 for i in range(len(pop)):
 	print(pop[i].allels)
 """

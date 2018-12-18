@@ -3,7 +3,7 @@ import common
 import init
 from random import randint
 
-def mutation (Chrom, treeDepth):
+def mutation (Chrom, treeDepth, maxNodes):
 
 	#Parametros del problema:
     treeType = ['grow','full']
@@ -26,7 +26,7 @@ def mutation (Chrom, treeDepth):
     else:
         choosenTree = random.choice(treeType)
         #treeDepth = randint(2,9)
-        newSubTree = init.initIndiv(treeDepth,choosenTree) #Llamada a la funcion que devuelve un nuevo subarbol
+        newSubTree = init.initIndiv(choosenTree,treeDepth,maxNodes) #Llamada a la funcion que devuelve un nuevo subarbol
         if common.determineNode(Chrom[i]) is common.terminal_: #Si se inserta en un nodo hoja simplemente se sustituye por este.
             del Chrom[i]
             Chrom[i:i] = newSubTree

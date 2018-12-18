@@ -13,6 +13,8 @@ INTERMEDIATE = None
 METH_selectionTournament = getattr(selection, "tournament")
 METH_selectionRoulette = getattr(selection, "RouletteMethod")
 
+ARG_initTreeLimitNodes = 100					# Init: limit number of nodes for the tree
+ARG_mutTreeLimitNodes = int(ARG_initTreeLimitNodes*0.3) #Mut: limit number for the subtrees generated					
 ARG_initGrowProb = 0.8							# Init: probability of trees with mode grow
 ARG_initTreeMaxDepth = 9						# Init: maximum depth of the trees 
 ARG_tournamentSize = 3           				# Selection; tournament size
@@ -88,7 +90,7 @@ def evaluate_bulk(population):
 
 # print(">>> INITIALIZING POP.")
 # Initializes popuplation
-POPULATION = init.initPopulation(POP_LEN,ARG_initGrowProb, ARG_initTreeMaxDepth)
+POPULATION = init.initPopulation(POP_LEN,ARG_initGrowProb, ARG_initTreeMaxDepth, ARG_initTreeLimitNodes)
 # print(POPULATION[0])
 #POP_LEN = len(POPULATION)
 # print("<<< POP. INITIALIZED - SIZE:", POP_LEN)
@@ -175,7 +177,7 @@ for i in range(ARG_iterations):
                 INTERMEDIATE.append(newIndiv)
 
         else:
-            newIndiv = common.Chromo(mut.mutation(METH_selectingMethod(POPULATION, ARG_selectingMethodParam), ARG_mutationTreeDepth))
+            newIndiv = common.Chromo(mut.mutation(METH_selectingMethod(POPULATION, ARG_selectingMethodParam), ARG_mutationTreeDepth,ARG_mutTreeLimitNodes))
             INTERMEDIATE.append(newIndiv)
         #print("Generacion individuos: ",time.time()-start)
 
