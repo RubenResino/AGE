@@ -114,7 +114,7 @@ def initPopulation(popSize,growProb,maxDepth):
 		if(popSize>10):
 			elems=int(popSize/2)
 		#If we have less the maximum will be the indivs left
-		else:best_individual
+		else:
 			elems=popSize
 
 		numIndivs=randint(0,elems)
