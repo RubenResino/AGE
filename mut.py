@@ -3,11 +3,11 @@ import common
 import init
 from random import randint
 
-def mutation (Chrom):
+def mutation (Chrom, treeDepth):
 
 	#Parametros del problema:
     treeType = ['grow','full']
-    treeDepth = 0
+    #treeDepth = 0
     notSimpleMutationRatio = 0.4
     newOperatorArity = 0
 
@@ -25,7 +25,7 @@ def mutation (Chrom):
             Chrom[i] = newOperator
     else:
         choosenTree = random.choice(treeType)
-        treeDepth = randint(2,9)
+        #treeDepth = randint(2,9)
         newSubTree = init.initIndiv(treeDepth,choosenTree) #Llamada a la funcion que devuelve un nuevo subarbol
         if common.determineNode(Chrom[i]) is common.terminal_: #Si se inserta en un nodo hoja simplemente se sustituye por este.
             del Chrom[i]
@@ -41,4 +41,3 @@ def mutation (Chrom):
 test = [["+43"],["*x2"],["/zy"]]
 result = mutation(test[0])
 """
-

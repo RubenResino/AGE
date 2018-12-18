@@ -10,14 +10,20 @@ INTERMEDIATE = None
 """
     Algortihm arguments
 """
-ARG_SEL_TSIZE = 3           				# Selection; tournament size
-ARG_CRS_SWAPS = 2           				# Crossing; number of chromosome swaps in each crossing
-ARG_ALG_ITERS = 50             				# Iterations through algorithm
-ARG_ALG_tFEED = 10          				# When to print feedback
-ARG_ALG_RANGERATIO = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
-ARG_ALG_BESTPICKS = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
-ARG_ALG_CROSSRATIO = 0.7 
+METH_selectionTournament = getattr(selection, "tournament")
+METH_selectionRoulette = getattr(selection, "RouletteMethod")
 
+ARG_tournamentSize = 3           				# Selection; tournament size
+ARG_selectivePressure = 1                       # Selection; selective pressure
+ARG_crossingSwaps = 2           				# Crossing; number of chromosome swaps in each crossing
+ARG_iterations = 50             				# Iterations through algorithm
+ARG_itersPerFeedback = 10          				# When to print feedback
+ARG_goodFitnessRatio = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
+ARG_maxIndividualsKept = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
+ARG_crossingRatio = 0.7                         # Percent. Probability of picking crossing against mutation on each iteration
+ARG_mutationTreeDepth = 3                       # Max depth of the tree generated in mutation
+METH_selectingMethod = METH_selectionTournament # Selecting method using during population generation.
+ARG_selectingMethodParam = ARG_tournamentSize   # if tournament, param is tournament size, if roulette, param is selective pressure
 """
     Multithreading
 """
@@ -85,7 +91,7 @@ POPULATION = init.initPopulation(POP_LEN)
 # print("<<< POP. INITIALIZED - SIZE:", POP_LEN)
 
 # DOGEN
-for i in range(ARG_ALG_ITERS):
+for i in range(ARG_iterations):
     INTERMEDIATE = []
     print("Iteracion: ",i)
 
@@ -112,11 +118,11 @@ for i in range(ARG_ALG_ITERS):
     print(POPULATION[0].allels)
 	# Populates intermediate list with best individuals
     best_fitness = POPULATION[0].fitness
-    limit_fitness = best_fitness - abs(best_fitness * ARG_ALG_RANGERATIO)
+    limit_fitness = best_fitness - abs(best_fitness * ARG_goodFitnessRatio)
 
 
 
-    for individual in range(ARG_ALG_BESTPICKS):
+    for individual in range(ARG_maxIndividualsKept):
 		# If individual fitness is greater than the specified range, stop loop
         if POPULATION[individual].fitness < limit_fitness:
             break
@@ -140,18 +146,18 @@ for i in range(ARG_ALG_ITERS):
         	prob=random.random()
 
     	# Choses between mutation or crossing
-        if  prob < ARG_ALG_CROSSRATIO:
+        if  prob < ARG_crossingRatio:
             # print(">>> SELECTING INDIVIDUAL")
-            parents = (selection.tournament(POPULATION, ARG_SEL_TSIZE), selection.tournament(POPULATION, ARG_SEL_TSIZE))
+            parents = (METH_selectingMethod(POPULATION, ARG_selectingMethodParam), METH_selectingMethod(POPULATION, ARG_selectingMethodParam))
             # print(">>> CROSSING INDIVIDUAL")
-            for child in crossing.love(parents, ARG_CRS_SWAPS):
+            for child in crossing.love(parents, ARG_crossingSwaps):
 
                 # Creates a Chromo object to pass to the new population
                 newIndiv = common.Chromo(child)
                 INTERMEDIATE.append(newIndiv)
 
         else:
-            newIndiv = common.Chromo(mut.mutation(selection.tournament(POPULATION, ARG_SEL_TSIZE)))
+            newIndiv = common.Chromo(mut.mutation(METH_selectingMethod(POPULATION, ARG_selectingMethodParam), ARG_mutationTreeDepth))
             INTERMEDIATE.append(newIndiv)
         #print("Generacion individuos: ",time.time()-start)
 
