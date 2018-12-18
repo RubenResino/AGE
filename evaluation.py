@@ -86,7 +86,8 @@ def evaluate(chromosome):
         try:
             price=int(prefixParse(chromosome.allels, inp[0], inp[1], inp[2])[0])
             if price<0:
-                return -100000
+                price=0
+                #return -100000
             urls.append("http://memento.evannai.inf.uc3m.es/age/eci1?days={}&seats={}&demand={}&price={}".format(inp[0],inp[1],inp[2],price))
         except ZeroDivisionError:
             return -1000000
