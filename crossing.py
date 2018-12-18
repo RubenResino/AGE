@@ -28,16 +28,17 @@ def love(parents, n_swaps = 1, balanced = False, max_debalance = 2):
     #Swaping must be done individually, since every time a swap occurs between chromosomes, its size changes
     for swap in range(n_swaps):
 
+
+
+        #gets random indices (valid across both individuals)
+        crosspoints = (random.randint(0, len(parents[0]) - 1), random.randint(0, len(parents[1]) - 1))
+
+        #nested tuples
+        #the outter tuple represents each of the parents crossing sections
+        #inner tuple (getSection return) represents the begining and ending of the section
+        bounds = (common.getSection(parents[0], crosspoints[0]), common.getSection(parents[1], crosspoints[1]))
+        
         if balanced:
-
-            #gets random indices (valid across both individuals)
-            crosspoints = (random.randint(0, len(parents[0]) - 1), random.randint(0, len(parents[1]) - 1))
-
-            #nested tuples
-            #the outter tuple represents each of the parents crossing sections
-            #inner tuple (getSection return) represents the begining and ending of the section
-            bounds = (common.getSection(parents[0], crosspoints[0]), common.getSection(parents[1], crosspoints[1]))
-
             # Bounds are chosen in balance
             while abs((bounds[0][1] - bounds[0][0]) - (bounds[1][1] - bounds[1][0])) > max_debalance:
 
