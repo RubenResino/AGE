@@ -1,7 +1,7 @@
 import common
 import copy
 import init, selection, crossing, mut, evaluation,fakeeval
-import time, numpy as np, random, threading
+import time, numpy as np, random, threading, pandas as pd
 
 POPULATION = None
 POP_LEN = 50
@@ -14,14 +14,14 @@ METH_selectionTournament = getattr(selection, "tournament")
 METH_selectionRoulette = getattr(selection, "RouletteMethod")
 
 ARG_initTreeLimitNodes = 100					# Init: limit number of nodes for the tree
-ARG_mutTreeLimitNodes = int(ARG_initTreeLimitNodes*0.3) #Mut: limit number for the subtrees generated					
+ARG_mutTreeLimitNodes = int(ARG_initTreeLimitNodes*0.3) #Mut: limit number for the subtrees generated
 ARG_initGrowProb = 0.8							# Init: probability of trees with mode grow
 ARG_initTreeMaxDepth = 9						# Init: maximum depth of the trees
 ARG_tournamentSize = 3           				# Selection; tournament size
 ARG_selectivePressure = 1.5                     # Selection; selective pressure
 ARG_crossingSwaps = 1           				# Crossing; number of chromosome swaps in each crossing
 ARG_iterations = 500             				# Max iterations through algorithm
-ARG_itersPerFeedback = 10          				# When to print feedback
+ARG_itersPerFeedback = 1          				# When to print feedback
 ARG_goodFitnessRatio = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
 ARG_maxIndividualsKept = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
 ARG_crossingRatio = 0.0                         # Percent. Probability of picking crossing against mutation on each iteration
@@ -29,9 +29,24 @@ ARG_mutationTreeDepth = 3                       # Max depth of the tree generate
 METH_selectingMethod = METH_selectionTournament # Selecting method using during population generation.
 ARG_selectingMethodParam = ARG_tournamentSize   # if tournament, param is tournament size, if roulette, param is selective pressure
 ARG_maxIdleIters = 50                           # number of consecutive iterations the algorithm should run with the same best individual to stop
+
+ARG_selectionName = None
+
+if METH_selectingMethod is METH_selectionTournament:
+    ARG_selectionName = "tournament"
+
+else:
+    ARG_selectionName = "RouletteMethod"
 """
     Multithreading
 """
+
+OUTPUT_test = "pSize"+str(POP_LEN)+"iTLN"+str(ARG_initTreeLimitNodes)+"mTLN"+str(ARG_mutTreeLimitNodes)+"iGP"+str(ARG_initGrowProb)+"iTMD"+str(ARG_initTreeMaxDepth)+"tS"+str(ARG_tournamentSize)+"sP"+str(ARG_selectivePressure)+"cS"+str(ARG_crossingSwaps)+"it"+str(ARG_iterations)+"gFR"+str(ARG_goodFitnessRatio)+"mIK"+str(ARG_maxIndividualsKept)+"cR"+str(ARG_crossingRatio)+"mTD"+str(ARG_mutationTreeDepth)+"sM"+str(ARG_selectionName)+"sMP"+str(ARG_selectingMethodParam)+"mII"+str(ARG_maxIdleIters)
+
+OUTPUT_results = []
+columns = ["nombre", "mejor_fitness", "fitness_medio", "varianza_fitness"]
+file = open(OUTPUT_test+".csv","w")
+#df = pd.DataFrame(columns = columns)
 
 MT_T_NUMB = 4   # Number of threads
 
@@ -121,10 +136,14 @@ for i in range(ARG_iterations):
     common.cleanPop(POPULATION)
     evaluate_bulk(POPULATION)
 
-	
+
 	# Sorts population list
     POPULATION.sort(key = lambda x: x.fitness, reverse = True)
     new_best = POPULATION[0]
+
+    #df.append(pd.DataFrame(["HOLA",new_best.fitness, 0, 0],columns = columns),ignore_index=True)
+
+
 
     # Same best individual as in previous iteration
     if new_best is current_best:
@@ -135,7 +154,13 @@ for i in range(ARG_iterations):
         current_best = new_best
         timesSameBest = 0
 
-    common.maxmeanFit(POPULATION)
+    fit = common.maxmeanFit(POPULATION)
+
+    #OUTPUT_test.append([str(i)+","+str(fit[0])+","+str(fit[1])+","])
+
+    if i%ARG_itersPerFeedback == 0:
+        file.write(str(i)+","+str(fit[0])+","+str(fit[1])+","+str(fit[2])+","+str(fit[3])+",\n")
+
     print("Best individual:")
     print(new_best.allels)
 	# Populates intermediate list with best individuals
@@ -143,7 +168,7 @@ for i in range(ARG_iterations):
     limit_fitness = best_fitness - abs(best_fitness * ARG_goodFitnessRatio)
 
 
-	
+
     for individual in range(ARG_maxIndividualsKept):
 		# If individual fitness is greater than the specified range, stop loop
         if POPULATION[individual].fitness < limit_fitness:
