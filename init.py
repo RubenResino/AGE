@@ -45,7 +45,6 @@ def addSons(indiv, currentDepth, maxDepth, mode):
 	return indiv
 
 def initIndiv(maxDepth,mode):
-
 	#List of list: the 2nds will be: [element, depth, [sons], written]
 	#The sons sublist will give the index of the son on the indiv list
 	#Terminals will have a -1 as child to indicate they dont have children
@@ -56,7 +55,7 @@ def initIndiv(maxDepth,mode):
     if(maxDepth<0):
     	print("Error: negative depth")
     	return
-		
+
     #If 0 returns an empty list
     if(maxDepth==0):
     	print("Warning: empty individual")
@@ -115,7 +114,7 @@ def initPopulation(popSize):
 		if(popSize>10):
 			elems=int(popSize/2)
 		#If we have less the maximum will be the indivs left
-		else:
+		else:best_individual
 			elems=popSize
 
 		numIndivs=randint(0,elems)

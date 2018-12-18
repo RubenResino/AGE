@@ -38,7 +38,7 @@ def love(parents, n_swaps = 1, balanced = False, max_debalance = 2):
             #inner tuple (getSection return) represents the begining and ending of the section
             bounds = (common.getSection(parents[0], crosspoints[0]), common.getSection(parents[1], crosspoints[1]))
 
-            # Bounds are choosen in balance
+            # Bounds are chosen in balance
             while abs((bounds[0][1] - bounds[0][0]) - (bounds[1][1] - bounds[1][0])) > max_debalance:
 
                 # Re calculates bounds
