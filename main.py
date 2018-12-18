@@ -14,10 +14,10 @@ METH_selectionTournament = getattr(selection, "tournament")
 METH_selectionRoulette = getattr(selection, "RouletteMethod")
 
 ARG_initGrowProb = 0.8							# Init: probability of trees with mode grow
-ARG_initTreeMaxDepth = 9						# Init: maximum depth of the trees 
+ARG_initTreeMaxDepth = 9						# Init: maximum depth of the trees
 ARG_tournamentSize = 3           				# Selection; tournament size
-ARG_selectivePressure = 1                       # Selection; selective pressure
-ARG_crossingSwaps = 2           				# Crossing; number of chromosome swaps in each crossing
+ARG_selectivePressure = 1.5                     # Selection; selective pressure
+ARG_crossingSwaps = 1           				# Crossing; number of chromosome swaps in each crossing
 ARG_iterations = 500             				# Max iterations through algorithm
 ARG_itersPerFeedback = 10          				# When to print feedback
 ARG_goodFitnessRatio = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
@@ -30,6 +30,7 @@ ARG_maxIdleIters = 50                           # number of consecutive iteratio
 """
     Multithreading
 """
+
 MT_T_NUMB = 4   # Number of threads
 
 # Generic method to run some chunk of data in some other method
