@@ -13,6 +13,8 @@ INTERMEDIATE = None
 METH_selectionTournament = getattr(selection, "tournament")
 METH_selectionRoulette = getattr(selection, "RouletteMethod")
 
+ARG_initGrowProb = 0.8							# Init: probability of trees with mode grow
+ARG_initTreeMaxDepth = 9						# Init: maximum depth of the trees 
 ARG_tournamentSize = 3           				# Selection; tournament size
 ARG_selectivePressure = 1                       # Selection; selective pressure
 ARG_crossingSwaps = 2           				# Crossing; number of chromosome swaps in each crossing
@@ -86,7 +88,7 @@ def evaluate_bulk(population):
 
 # print(">>> INITIALIZING POP.")
 # Initializes popuplation
-POPULATION = init.initPopulation(POP_LEN)
+POPULATION = init.initPopulation(POP_LEN,ARG_initGrowProb, ARG_initTreeMaxDepth)
 # print(POPULATION[0])
 #POP_LEN = len(POPULATION)
 # print("<<< POP. INITIALIZED - SIZE:", POP_LEN)

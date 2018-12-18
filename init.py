@@ -104,10 +104,10 @@ def initIndiv(maxDepth,mode):
     return newIndiv
 
 #Till the pop is full
-def initPopulation(popSize):
+def initPopulation(popSize,growProb,maxDepth):
 	#Generate the whole population
 	population=[]
-	modesList=["grow","full"]
+
 	while(popSize>0):
 		#We generate a random number of indivs with the same configuration
 		#If we have left more than 10 indivs the maximum will be the number of indivs_left/ 2
@@ -121,8 +121,12 @@ def initPopulation(popSize):
 		popSize-=numIndivs
 
 		#Determine a configuration
-		depth=randint(2,9)
-		mode=random.choice(modesList)
+		depth=randint(2,maxDepth)
+
+		if(random.random()<growProb):
+			mode = "grow"
+		else:
+			mode="full"
 
 		#Create num_indivs with the given configuration
 		while (numIndivs!=0):
