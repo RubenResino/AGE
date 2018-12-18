@@ -118,7 +118,7 @@ for i in range(ARG_iterations):
     # Evaluation
     # When threading is enabled, evaluation across population is asynchronous
     #task_fire(POPULATION, evaluate_bulk, True)
-	common.cleanPop(POPULATION)
+    common.cleanPop(POPULATION)
     evaluate_bulk(POPULATION)
 
 	
@@ -158,7 +158,7 @@ for i in range(ARG_iterations):
     # print("popLen: ", len(POPULATION))
     # print("Primera evaluacion: ",time.time()-start)
     # print("Maximo y media: ", common.maxmeanFit(POPULATION))
-	common.cleanPop(POPULATION)
+    common.cleanPop(POPULATION)
     while len(INTERMEDIATE) < POP_LEN:
 
         #If there is only one element left we force the mutations
