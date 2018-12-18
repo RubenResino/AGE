@@ -115,9 +115,10 @@ for i in range(ARG_iterations):
     # Evaluation
     # When threading is enabled, evaluation across population is asynchronous
     #task_fire(POPULATION, evaluate_bulk, True)
+	common.cleanPop(POPULATION)
     evaluate_bulk(POPULATION)
 
-
+	
 	# Sorts population list
     POPULATION.sort(key = lambda x: x.fitness, reverse = True)
     new_best = POPULATION[0]
@@ -139,7 +140,7 @@ for i in range(ARG_iterations):
     limit_fitness = best_fitness - abs(best_fitness * ARG_goodFitnessRatio)
 
 
-
+	
     for individual in range(ARG_maxIndividualsKept):
 		# If individual fitness is greater than the specified range, stop loop
         if POPULATION[individual].fitness < limit_fitness:
@@ -154,7 +155,7 @@ for i in range(ARG_iterations):
     # print("popLen: ", len(POPULATION))
     # print("Primera evaluacion: ",time.time()-start)
     # print("Maximo y media: ", common.maxmeanFit(POPULATION))
-
+	common.cleanPop(POPULATION)
     while len(INTERMEDIATE) < POP_LEN:
 
         #If there is only one element left we force the mutations
