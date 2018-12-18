@@ -36,10 +36,10 @@ class Operator:
         return self.function(*args)
     
 def cleanPop(population):
-    for idx, p in enumerate(population):
-        if len(population[idx].allels) == 0:
-            population[idx].allels = ["0"]
-    return population
+    for p in population:
+        if len(p.allels) == 0:
+            p.allels = ["0"]
+            print("Aqui no hay ningun problema")
 
 def trydivide(a,b):
     if b!=0:
