@@ -95,7 +95,7 @@ def evaluate(chromosome):
     with concurrent.futures.ThreadPoolExecutor(max_workers = CONNECTIONS) as executor:
         #future_to_url = (executor.submit(load_url, url) for url in urls)
 
-        m=list(executor.map(load_url,urls,np.repeat(TIMEOUT,len(inputs)))
+        m=list(executor.map(load_url,urls,np.repeat(TIMEOUT,len(inputs))))
         media = np.mean(m)
         return media
         #executor.wait(future_to_url, timeout=TIMEOUT, return_when=ALL_COMPLETED)
