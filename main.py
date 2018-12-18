@@ -41,7 +41,7 @@ else:
     Multithreading
 """
 
-OUTPUT_test = "pSize"+str(POP_LEN)+"iTLN"+str(ARG_initTreeLimitNodes)+"mTLN"+str(ARG_mutTreeLimitNodes)+"iGP"+str(ARG_initGrowProb)+"iTMD"+str(ARG_initTreeMaxDepth)+"tS"+str(ARG_tournamentSize)+"sP"+str(ARG_selectivePressure)+"cS"+str(ARG_crossingSwaps)+"it"+str(ARG_iterations)+"gFR"+str(ARG_goodFitnessRatio)+"mIK"+str(ARG_maxIndividualsKept)+"cR"+str(ARG_crossingRatio)+"mTD"+str(ARG_mutationTreeDepth)+"sM"+str(ARG_selectionName)+"sMP"+str(ARG_selectingMethodParam)+"mII"+str(ARG_maxIdleIters)
+OUTPUT_test = "pSize"+str(POP_LEN)+"_iTLN"+str(ARG_initTreeLimitNodes)+"_mTLN"+str(ARG_mutTreeLimitNodes)+"_iGP"+str(ARG_initGrowProb)+"_iTMD"+str(ARG_initTreeMaxDepth)+"_tS"+str(ARG_tournamentSize)+"_sP"+str(ARG_selectivePressure)+"_cS"+str(ARG_crossingSwaps)+"_it"+str(ARG_iterations)+"_gFR"+str(ARG_goodFitnessRatio)+"_mIK"+str(ARG_maxIndividualsKept)+"_cR"+str(ARG_crossingRatio)+"_mTD"+str(ARG_mutationTreeDepth)+"_sM"+str(ARG_selectionName)+"_sMP"+str(ARG_selectingMethodParam)+"_mII"+str(ARG_maxIdleIters)
 
 OUTPUT_results = []
 columns = ["nombre", "mejor_fitness", "fitness_medio", "varianza_fitness"]
