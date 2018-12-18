@@ -13,18 +13,18 @@ def RouletteMethod(population, selective_pressure):
     sumaMax = 0
     for individuo in popInicial:      #Se calcula el numero de individuos
        numIndividuos += 1
-                                             
+
     individuoElegido = population[0]                                                #Se prepara indiviuoElegido, donde pondremos al que escogemos por medio de la ruleta (se inicializa por ahora con el primero de la poblacion)
     popOrdenada = sorted(popInicial, key=lambda x: x.fitness, reverse=True)         #Se ordena la poblacion por su fitness, de mayor a menor
     fitness_ruleta = []
-   
+
     for i in range(numIndividuos):                                                  #Se calcula el fitness de ruleta proporcional a cada individuo segun su ranking y se suma esa cantidad a la suma total de fitness
         fitness_ruleta.append (2 - selective_pressure + 2 * (selective_pressure - 1) * ((numIndividuos - i ) - 1 / numIndividuos - 1))
         sumaMax += (2 - selective_pressure + 2 * (selective_pressure - 1) * ((numIndividuos - i ) - 1 / numIndividuos - 1))
-   
+
     numeroRandom = np.random.randint(sumaMax)                         #Se elige un numero alteatorio entre 0 y suma de fitness de ruleta
-    
-    
+
+
     individuoAntiguo = 0     #Se guardara en inviduoAntiguo la suma de fitness de los individuos comprobados por ahora en el loop
     individuoActual = 0
     #Se comprueba si el numero aleatorio pertenece al primer individuo (entre 0 y su valor de fitness), si no se comprueba si pertenece al segundo (entre el valor del primero y el valor conjunto del primero y el segundo),asi
@@ -37,9 +37,10 @@ def RouletteMethod(population, selective_pressure):
           individuoAntiguo += fitness_ruleta[individuoActual]
           individuoActual += 1
 
-          
-    #print ("Individuo escogido" , individuoElegido.fitness)     
-    return individuoElegido.allels
+
+    selected_allels = individuoElegido.allels[:]
+    #print ("Individuo escogido" , individuoElegido.fitness)
+    return selected_allels
 
 #Metodo para eligir un individuo usando torneo
 def tournament(population, t_size):
@@ -60,11 +61,11 @@ def tournament(population, t_size):
        if individuo_random.fitness > best_fitness:
           best_fitness = individuo_random.fitness
           individuoElegido = individuo_random
-           
 
-    #print ("Individuo escogido" , individuoElegido.fitness) 
-    return individuoElegido.allels                       #Se devuelve el cromosoma del mejor individuo
-      
+    selected_allels = individuoElegido.allels[:]
+    #print ("Individuo escogido" , individuoElegido.fitness)
+    return selected_allels                       #Se devuelve el cromosoma del mejor individuo
+
 
 """
 class Chromo:
@@ -79,9 +80,9 @@ class Chromo:
         if allels is not None:
             self.allels = allels
 """
-"""    
+"""
 if __name__ == '__main__':
- 
+
   population = []
   prueba1 = Chromo()
   prueba1.fitness = 50
