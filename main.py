@@ -4,7 +4,7 @@ import init, selection, crossing, mut, evaluation,fakeeval
 import time, numpy as np, random, threading, pandas as pd
 
 POPULATION = None
-POP_LEN = 50
+POP_LEN = 30
 INTERMEDIATE = None
 
 """
@@ -15,37 +15,37 @@ METH_selectionRoulette = getattr(selection, "RouletteMethod")
 
 #Init arguments
 ARG_initTreeLimitNodes = 100					# Init: limit number of nodes for the tree
-ARG_initGrowProb = 0.8							# Init: probability of trees with mode grow
-ARG_initTreeMaxDepth = 9						# Init: maximum depth of the trees
+ARG_initGrowProb = 0.5							# Init: probability of trees with mode grow
+ARG_initTreeMaxDepth = 5						# Init: maximum depth of the trees
 
 #Selection arguments
 ARG_tournamentSize = 3           				# Selection; tournament size
 ARG_selectivePressure = 1.5                     # Selection; selective pressure
 ARG_selectingMethodParam = ARG_tournamentSize   # if tournament, param is tournament size, if roulette, param is selective pressure
-METH_selectingMethod = METH_selectionTournament # Selecting method using during population generation.
+METH_selectingMethod = METH_selectionRoulette # Selecting method using during population generation.
 
 #Crossing
 ARG_crossingSwaps = 1           				# Crossing; number of chromosome swaps in each crossing
-ARG_crossingBalace = False
-ARG_crossingMaxDebalance = 2
+ARG_crossingBalace = True
+ARG_crossingMaxDebalance = 3
 
 #Mutation
-ARG_notSimpleMut = 0.4
+ARG_notSimpleMut = 0.25
 ARG_mutTreeLimitNodes = int(ARG_initTreeLimitNodes*0.3) #Mut: limit number for the subtrees generated
-ARG_mutationTreeDepth = 3                       		# Max depth of the tree generated in mutation
+ARG_mutationTreeDepth = ARG_initTreeMaxDepth - 3                       		# Max depth of the tree generated in mutation
 
 #Evaluation
-ARG_maxIdleIters = 50                           # number of consecutive iterations the algorithm should run with the same best individual to stop
+ARG_maxIdleIters = 10                           # number of consecutive iterations the algorithm should run with the same best individual to stop
 
 #Main
 ARG_maxIndividualsKept = int(POP_LEN * 0.2)		# Top limit of individuals selected for the new population
-ARG_goodFitnessRatio = 5						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
+ARG_goodFitnessRatio = 10						# Percent. Min fitness range difference between the best individual and the individuals chosen for the new population
 ARG_crossingRatio = 0.8                         # Percent. Probability of picking crossing against mutation on each iteration
 
 
 #Otros
 ARG_itersPerFeedback = 1          				# When to print feedback
-ARG_iterations = 500             				# Max iterations through algorithm
+ARG_iterations = 250             				# Max iterations through algorithm
 
 
 ################################################################################################
@@ -66,6 +66,7 @@ OUTPUT_test = "pSize"+str(POP_LEN)+"_iTLN"+str(ARG_initTreeLimitNodes)+"_mTLN"+s
 OUTPUT_results = []
 columns = ["nombre", "mejor_fitness", "fitness_medio", "varianza_fitness"]
 file = open(OUTPUT_test+".csv","w")
+file_best = open("best_fun.txt", "w")
 #df = pd.DataFrame(columns = columns)
 
 MT_T_NUMB = 4   # Number of threads
@@ -134,8 +135,9 @@ POPULATION = init.initPopulation(POP_LEN,ARG_initGrowProb, ARG_initTreeMaxDepth,
 # DOGEN
 # Number of iterations with same best individual
 timesSameBest = 0
+current_best = None
 for i in range(ARG_iterations):
-    current_best = None
+    #print("rawr")
     INTERMEDIATE = []
     print("Iteracion: ",i)
 
@@ -229,3 +231,4 @@ for i in range(ARG_iterations):
         #print("Generacion individuos: ",time.time()-start)
 
     POPULATION = INTERMEDIATE
+file_best.write(str(current_best))
