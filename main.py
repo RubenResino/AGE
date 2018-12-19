@@ -22,7 +22,7 @@ ARG_initTreeMaxDepth = 5						# Init: maximum depth of the trees
 ARG_tournamentSize = 3           				# Selection; tournament size
 ARG_selectivePressure = 1.5                     # Selection; selective pressure
 ARG_selectingMethodParam = ARG_tournamentSize   # if tournament, param is tournament size, if roulette, param is selective pressure
-METH_selectingMethod = METH_selectionRoulette # Selecting method using during population generation.
+METH_selectingMethod = METH_selectionTournament # Selecting method using during population generation.
 
 #Crossing
 ARG_crossingSwaps = 1           				# Crossing; number of chromosome swaps in each crossing
