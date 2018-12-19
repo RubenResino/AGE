@@ -45,7 +45,7 @@ ARG_crossingRatio = 0.8                         # Percent. Probability of pickin
 
 #Otros
 ARG_itersPerFeedback = 1          				# When to print feedback
-ARG_iterations = 250             				# Max iterations through algorithm
+ARG_iterations = 50             				# Max iterations through algorithm
 
 
 ################################################################################################
